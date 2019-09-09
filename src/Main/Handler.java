@@ -12,13 +12,17 @@ import Worlds.WorldBase;
 
 public class Handler {
 
+	//Member data
     private GameSetUp game;
     private WorldBase world;
 
+    //Constructor
     public Handler(GameSetUp game){
         this.game = game;
     }
 
+    //member data
+    //getters accessors
     public int getWidth(){
         return game.getWidth();
     }
@@ -31,10 +35,12 @@ public class Handler {
         return game;
     }
 
+    //setters mutators
     public void setGame(GameSetUp game) {
         this.game = game;
     }
 
+    //getters
     public KeyManager getKeyManager(){
         return game.getKeyManager();
     }
@@ -47,6 +53,7 @@ public class Handler {
         return world;
     }
 
+    //setters
     public void setWorld(WorldBase world) {
         this.world = world;
     }

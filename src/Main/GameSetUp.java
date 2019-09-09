@@ -22,6 +22,7 @@ import java.io.InputStream;
  */
 
 public class GameSetUp implements Runnable {
+	//member data
     private DisplayScreen display;
     private int width, height;
     public String title;
@@ -54,9 +55,13 @@ public class GameSetUp implements Runnable {
     private Clip audioClip;
 
     private BufferedImage loading;
-
+    //Frame Speed
+    public int fps = 50;
+    public double timePerTick = 1000000000 / fps;
+    private int currentscore=0;
+    //Constructor always have the same name of the class and have no return type
     public GameSetUp(String title, int width, int height){
-
+    	//Copy parameter to member data
         this.width = width;
         this.height = height;
         this.title = title;
@@ -65,6 +70,7 @@ public class GameSetUp implements Runnable {
 
     }
 
+    //member functions
     private void init(){
         display = new DisplayScreen(title, width, height);
         display.getFrame().addKeyListener(keyManager);
@@ -121,8 +127,7 @@ public class GameSetUp implements Runnable {
         //initiallizes everything in order to run without breaking
         init();
 
-        int fps = 60;
-        double timePerTick = 1000000000 / fps;
+        
         double delta = 0;
         long now;
         long lastTime = System.nanoTime();
@@ -178,8 +183,8 @@ public class GameSetUp implements Runnable {
         g.drawImage(loading ,0,0,width,height,null);
         if(State.getState() != null)
             State.getState().render(g);
-
-
+        String str=Integer.toString(currentscore);
+        display.getScore().setText(str);
         //End Drawing!
         bs.show();
         g.dispose();
@@ -196,6 +201,7 @@ public class GameSetUp implements Runnable {
         }
     }
 
+    //getters accessors
     public KeyManager getKeyManager(){
         return keyManager;
     }
@@ -211,5 +217,14 @@ public class GameSetUp implements Runnable {
     public int getHeight(){
         return height;
     }
+
+	public void changetime() {
+		fps+=4+1;
+        timePerTick= 1000000000 / fps;
+	}
+
+	public void changescore() {
+		currentscore=(int) Math.sqrt(2*currentscore+1);
+	}
 }
 

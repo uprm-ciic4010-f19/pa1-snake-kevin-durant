@@ -12,11 +12,16 @@ import javax.swing.*;
 
 public class DisplayScreen {
 
+	//member data
     private JFrame frame;
     private Canvas canvas;
     private String title;
     private int width, height;
-
+    private JLabel score;
+    private int ScoreHeight=30;
+    
+    
+    //Constructor
     public DisplayScreen(String title, int width, int height){
         this.title = title;
         this.width = width;
@@ -27,14 +32,16 @@ public class DisplayScreen {
         createDisplay();
     }
 
+    //member functions
     private void createDisplay(){
         frame = new JFrame(title);
-        frame.setSize(width, height);
+        frame.setSize(width, height+ScoreHeight);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setBackground(Color.black);
+        frame.setBackground(new Color(255,0,255));
+   
 
         try {
             frame.setIconImage(ImageIO.read(new File("res/Sheets/icon.png")));
@@ -47,8 +54,13 @@ public class DisplayScreen {
         canvas.setMaximumSize(new Dimension(width, height));
         canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
-        canvas.setBackground(Color.black);
+        canvas.setBackground(new Color(255,0,255));
 
+        score=new JLabel("  0");
+        score.setBounds(0, 0, 100, 30);
+        //score.setSize(10, 10);
+        //score.setFont(new Font());
+        frame.add(score);
         frame.add(canvas);
         frame.pack();
     }
@@ -56,7 +68,9 @@ public class DisplayScreen {
     public Canvas getCanvas(){
         return canvas;
     }
-
+    public JLabel getScore(){
+        return score;
+    }
     public JFrame getFrame(){
         return frame;
     }
