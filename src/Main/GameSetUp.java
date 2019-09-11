@@ -56,9 +56,10 @@ public class GameSetUp implements Runnable {
 
     private BufferedImage loading;
     //Frame Speed
-    public int fps = 50;
-    public double timePerTick = 1000000000 / fps;
-    private int currentscore=0;
+    private int fps = 50;
+    private double timePerTick = 1000000000 / fps + 4+1;
+    private double currentscore=0;
+    private boolean gameover=false;
     //Constructor always have the same name of the class and have no return type
     public GameSetUp(String title, int width, int height){
     	//Copy parameter to member data
@@ -84,7 +85,7 @@ public class GameSetUp implements Runnable {
 
         handler = new Handler(this);
 
-        gameState = new GameState(handler);
+        gameState = new GameState(handler, width);
         menuState = new MenuState(handler);
         pauseState = new PauseState(handler);
 
@@ -110,7 +111,7 @@ public class GameSetUp implements Runnable {
     }
 
     public void reStart(){
-        gameState = new GameState(handler);
+        gameState = new GameState(handler,width);
     }
 
     public synchronized void start(){
@@ -183,7 +184,8 @@ public class GameSetUp implements Runnable {
         g.drawImage(loading ,0,0,width,height,null);
         if(State.getState() != null)
             State.getState().render(g);
-        String str=Integer.toString(currentscore);
+        String str = String.format("%.5f", currentscore);
+        //String str=Integer.toString((int)currentscore);
         display.getScore().setText(str);
         //End Drawing!
         bs.show();
@@ -224,7 +226,13 @@ public class GameSetUp implements Runnable {
 	}
 
 	public void changescore() {
-		currentscore=(int) Math.sqrt(2*currentscore+1);
+		System.out.println("Current score227"+currentscore);
+		currentscore= Math.sqrt(2*currentscore+1);
+		System.out.println("Current score"+currentscore);
+	}
+	public void gameOver() {
+		display.gameOver();
+		State.setState(pauseState);
 	}
 }
 

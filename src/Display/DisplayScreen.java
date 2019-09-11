@@ -19,7 +19,7 @@ public class DisplayScreen {
     private int width, height;
     private JLabel score;
     private int ScoreHeight=30;
-    
+    private JLabel gameover;
     
     //Constructor
     public DisplayScreen(String title, int width, int height){
@@ -55,16 +55,28 @@ public class DisplayScreen {
         canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
         canvas.setBackground(new Color(255,0,255));
+        canvas.setBounds(0,ScoreHeight,width,(height+ScoreHeight));
 
-        score=new JLabel("  0");
+        score=new JLabel("0.00000");
         score.setBounds(0, 0, 100, 30);
+    	score.setOpaque(false);
+
         //score.setSize(10, 10);
         //score.setFont(new Font());
+        gameover = new JLabel("Game Over");
+    	gameover.setBounds(0, 0, width, height);
+    	gameover.setFont(new Font("Serif", Font.ITALIC, 24));
+    	gameover.setOpaque(false);
+    	gameover.setVisible(false);
+    	frame.add(gameover);
         frame.add(score);
         frame.add(canvas);
         frame.pack();
     }
-
+    public void gameOver() {
+    	gameover.setVisible(true);
+    	System.out.println("GameOver");
+    }
     public Canvas getCanvas(){
         return canvas;
     }

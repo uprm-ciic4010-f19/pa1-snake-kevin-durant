@@ -11,12 +11,12 @@ import java.util.Random;
  */
 public class WorldOne extends WorldBase{
 
-    public WorldOne (Handler handler) {
+    public WorldOne (Handler handler, int size) {
         super(handler);
 
         //has to be a number bigger than 20 and even
         GridWidthHeightPixelCount = 60;
-        GridPixelsize = (800/GridWidthHeightPixelCount);
+        GridPixelsize = (size/GridWidthHeightPixelCount);
         playerLocation = new Boolean[GridWidthHeightPixelCount][GridWidthHeightPixelCount];
         appleLocation = new Boolean[GridWidthHeightPixelCount][GridWidthHeightPixelCount];
 
