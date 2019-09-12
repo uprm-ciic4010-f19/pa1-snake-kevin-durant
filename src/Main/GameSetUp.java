@@ -232,7 +232,7 @@ public class GameSetUp implements Runnable {
 	}
 	public void gameOver() {
 		display.gameOver();
-		State.setState(pauseState);
+		State.setState(pauseState); //uses the pause state to stop the game while Game Over screen is in front
 	}
 }
 
