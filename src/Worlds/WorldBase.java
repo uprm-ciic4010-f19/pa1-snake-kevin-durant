@@ -29,7 +29,7 @@ public abstract class WorldBase {
 
 
     public Boolean appleOnBoard;
-    protected Apple apple;
+    public Apple apple;
     public Boolean[][] appleLocation;
 
 
@@ -42,6 +42,7 @@ public abstract class WorldBase {
         this.handler = handler;
 
         appleOnBoard = false;
+        apple = null;
 
 
     }

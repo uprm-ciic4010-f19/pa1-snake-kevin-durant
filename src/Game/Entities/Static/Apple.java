@@ -17,6 +17,19 @@ public class Apple {
         this.xCoord=x;
         this.yCoord=y;
     }
+    
+    //public boolean isGood (int steps){
+    		
+    		//if (steps == handler.getWidth())
+    		//{
+    			
+    		//	return false;
+    			
+    		//}
+    
+    		//	return true;
+    			
+			//}
 
 
 }

@@ -107,6 +107,17 @@ public class Player {
                   break;
           }
       }
+      
+      //public void checkSteps() {
+    	 //if (steps >= 30) {
+    		//handler.getWorld().apple.setIsGood(false);
+    			
+    			// restar score
+    			//quitar cola
+    			
+    		//}
+    	//}
+      
 
 		
 
