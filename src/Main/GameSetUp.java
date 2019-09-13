@@ -234,5 +234,18 @@ public class GameSetUp implements Runnable {
 		display.gameOver();
 		State.setState(pauseState); //uses the pause state to stop the game while Game Over screen is in front
 	}
+	
+	// Aumenta Velocidad
+    public void PlusSpeed() {
+        fps+=4+1;
+        timePerTick= 1000000000 / fps;
+    }
+    //Disminuye Velocidad
+    public void MinusSpeed() {
+        fps-=4+1;
+        timePerTick= 1000000000 / fps;
+    }
+
+	
 }
 

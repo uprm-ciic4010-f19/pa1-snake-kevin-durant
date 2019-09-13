@@ -1,11 +1,13 @@
 package Game.Entities.Dynamic;
 
+import Game.Entities.Static.Apple;
 import Main.GameSetUp;
 import Main.Handler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.util.*;
 
 import javax.swing.JFrame;
 
@@ -24,30 +26,41 @@ public class Player {
 	public int yCoord;
 
 	public int moveCounter;
+	public int steps; // cantidad de cuadros
 
-	public String direction;//is your first name one?
+    public String direction;//is your first name one?
+    public String debugging;//Nueva variable de Debbuging
 
-	public Player(Handler handler){
-		this.handler = handler;
-		xCoord = 0;
-		yCoord = 0;
-		moveCounter = 0;
-		direction= "Right";
-		justAte = false;
-		lenght= 1;
 
-	}
+    public Player(Handler handler){
+        this.handler = handler;
+        xCoord = 0;
+        yCoord = 0;
+        moveCounter = 0;
+        steps = 0;
+        direction= "Right";
+        debugging= "None";
+        justAte = false;
+        lenght= 1;
+
+    }
 
 	public void tick(){
-		moveCounter++;
-		if(moveCounter>=5) {
-			checkCollisionAndMove();
-			moveCounter=0;
-		}
+		  moveCounter++;
+	        //if(moveCounter>=5) {
+	            checkCollisionAndMove();
+	            debuggingCommand();
+	            //checkApple(moveCounter);
+
+	          // moveCounter=0;
+	       // }
+		
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
 			State.setState(handler.getGame().pauseState);
 			return;
 		}
+		
+		
 
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
 			if(!direction.equals("Down")) {
@@ -66,8 +79,38 @@ public class Player {
 				direction="Right";
 			}
 		}
-
+		
+//      //Keys de Comandos
+      if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)){
+          debugging="N";
+      }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_PLUS)) {
+          debugging="Plus";
+      }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)){
+          debugging="Minus";
+      }
+      
 	}
+      
+      //    Funcion para identificar comandos de Debbuging	
+      public void debuggingCommand(){
+          switch (debugging) {
+              case "N":
+                      AddTail(); 
+                  break;
+              case "Plus":
+                  handler.getGame().PlusSpeed();
+                  debugging="None";
+                  break;
+              case "Minus":
+                  handler.getGame().MinusSpeed();
+                  debugging="None";
+                  break;
+          }
+      }
+
+		
+
+	
 
 	public void checkCollisionAndMove(){
 		handler.getWorld().playerLocation[xCoord][yCoord]=false;
@@ -145,6 +188,116 @@ public class Player {
 
 
 	}
+	
+	 //Funcion para anadir Cola
+	    public void AddTail(){
+	        lenght++;
+	        Tail tail= null;
+	        switch (direction){
+	            case "Left":
+	                if( handler.getWorld().body.isEmpty()){
+	                    if(this.xCoord!=handler.getWorld().GridWidthHeightPixelCount-1){
+	                        tail = new Tail(this.xCoord+1,this.yCoord,handler);
+	                    }else{
+	                        if(this.yCoord!=0){
+	                            tail = new Tail(this.xCoord,this.yCoord-1,handler);
+	                        }else{
+	                            tail =new Tail(this.xCoord,this.yCoord+1,handler);
+	                        }
+	                    }
+	                }else{
+	                    if(handler.getWorld().body.getLast().x!=handler.getWorld().GridWidthHeightPixelCount-1){
+	                        tail=new Tail(handler.getWorld().body.getLast().x+1,this.yCoord,handler);
+	                    }else{
+	                        if(handler.getWorld().body.getLast().y!=0){
+	                            tail=new Tail(handler.getWorld().body.getLast().x,this.yCoord-1,handler);
+	                        }else{
+	                            tail=new Tail(handler.getWorld().body.getLast().x,this.yCoord+1,handler);
+
+	                        }
+	                    }
+
+	                }
+	                break;
+	            case "Right":
+	                if( handler.getWorld().body.isEmpty()){
+	                    if(this.xCoord!=0){
+	                        tail=new Tail(this.xCoord-1,this.yCoord,handler);
+	                    }else{
+	                        if(this.yCoord!=0){
+	                            tail=new Tail(this.xCoord,this.yCoord-1,handler);
+	                        }else{
+	                            tail=new Tail(this.xCoord,this.yCoord+1,handler);
+	                        }
+	                    }
+	                }else{
+	                    if(handler.getWorld().body.getLast().x!=0){
+	                        tail=(new Tail(handler.getWorld().body.getLast().x-1,this.yCoord,handler));
+	                    }else{
+	                        if(handler.getWorld().body.getLast().y!=0){
+	                            tail=(new Tail(handler.getWorld().body.getLast().x,this.yCoord-1,handler));
+	                        }else{
+	                            tail=(new Tail(handler.getWorld().body.getLast().x,this.yCoord+1,handler));
+	                        }
+	                    }
+
+	                }
+	                break;
+	            case "Up":
+	                if( handler.getWorld().body.isEmpty()){
+	                    if(this.yCoord!=handler.getWorld().GridWidthHeightPixelCount-1){
+	                        tail=(new Tail(this.xCoord,this.yCoord+1,handler));
+	                    }else{
+	                        if(this.xCoord!=0){
+	                            tail=(new Tail(this.xCoord-1,this.yCoord,handler));
+	                        }else{
+	                            tail=(new Tail(this.xCoord+1,this.yCoord,handler));
+	                        }
+	                    }
+	                }else{
+	                    if(handler.getWorld().body.getLast().y!=handler.getWorld().GridWidthHeightPixelCount-1){
+	                        tail=(new Tail(handler.getWorld().body.getLast().x,this.yCoord+1,handler));
+	                    }else{
+	                        if(handler.getWorld().body.getLast().x!=0){
+	                            tail=(new Tail(handler.getWorld().body.getLast().x-1,this.yCoord,handler));
+	                        }else{
+	                            tail=(new Tail(handler.getWorld().body.getLast().x+1,this.yCoord,handler));
+	                        }
+	                    }
+
+	                }
+	                break;
+	            case "Down":
+	                if( handler.getWorld().body.isEmpty()){
+	                    if(this.yCoord!=0){
+	                        tail=(new Tail(this.xCoord,this.yCoord-1,handler));
+	                    }else{
+	                        if(this.xCoord!=0){
+	                            tail=(new Tail(this.xCoord-1,this.yCoord,handler));
+	                        }else{
+	                            tail=(new Tail(this.xCoord+1,this.yCoord,handler));
+	                        } System.out.println("Tu biscochito");
+	                    }
+	                }else{
+	                    if(handler.getWorld().body.getLast().y!=0){
+	                        tail=(new Tail(handler.getWorld().body.getLast().x,this.yCoord-1,handler));
+	                    }else{
+	                        if(handler.getWorld().body.getLast().x!=0){
+	                            tail=(new Tail(handler.getWorld().body.getLast().x-1,this.yCoord,handler));
+	                        }else{
+	                            tail=(new Tail(handler.getWorld().body.getLast().x+1,this.yCoord,handler));
+	                        }
+	                    }
+
+	                }
+	                break;
+	        }
+	        handler.getWorld().body.addLast(tail);
+	        debugging = "None";
+
+	    }
+
+	
 
 	public void Eat(){
 		lenght++;
